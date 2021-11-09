@@ -97,7 +97,7 @@ class MobileResnetGenerator(BaseNetwork):
                                         use_bias=use_bias)]
 
         for i in range(n_downsampling):  # add upsampling layers
-#             mult = 2 ** (n_downsampling - i)
+              mult = 2 ** (n_downsampling - i)
 #             model += [nn.ConvTranspose2d(ngf * mult, int(ngf * mult / 2),
 #                                          kernel_size=3, stride=2,
 #                                          padding=1, output_padding=1,
