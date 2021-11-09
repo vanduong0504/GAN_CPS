@@ -132,7 +132,7 @@ class CycleGANModel(BaseModel):
         self.eval_dataloader_AtoB = create_eval_dataloader(self.opt, direction='AtoB')
         self.eval_dataloader_BtoA = create_eval_dataloader(self.opt, direction='BtoA')
 
-        if not is_train:
+        if not opt.is_train:
             block_idx = InceptionV3.BLOCK_INDEX_BY_DIM[2048]
             self.inception_model = InceptionV3([block_idx])
             self.inception_model.to(self.device)
