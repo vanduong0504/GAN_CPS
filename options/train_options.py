@@ -74,7 +74,5 @@ class TrainOptions(BaseOptions):
         # evaluation parameters
         parser.add_argument('--eval_batch_size', type=int, default=1, help='the evaluation batch size')
         parser.add_argument('--no_fid', action='store_true', help='No FID evaluation during training')
-        parser.add_argument('--no_mIoU', action='store_true', help='No mIoU evaluation during training '
-                                                                   '(sometimes because there are CUDA memory)')
         self.isTrain = True
         return parser

@@ -86,8 +86,6 @@ class SupernetOptions(BaseOptions):
         parser.add_argument('--real_stat_path', type=str, required=True,
                             help='the path to load the ground-truth images information to compute FID.')
         parser.add_argument('--no_fid', action='store_true', help='No FID evaluation during training')
-        parser.add_argument('--no_mIoU', action='store_true', help='No mIoU evaluation during training '
-                                                                   '(sometimes because there are CUDA memory)')
         return parser
 
     def gather_options(self):

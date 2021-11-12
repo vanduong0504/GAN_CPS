@@ -9,7 +9,6 @@ except ImportError:
     from torch.utils.model_zoo import load_url as load_state_dict_from_url
 
 # Inception weights ported to Pytorch from
-# http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz
 FID_WEIGHTS_URL = 'https://github.com/mseitzer/pytorch-fid/releases/download/fid_weights/pt_inception-2015-12-05-6726825d.pth'
 
 
@@ -269,8 +268,6 @@ class FIDInceptionE_1(models.inception.InceptionE):
         ]
         branch3x3dbl = torch.cat(branch3x3dbl, 1)
 
-        # Patch: Tensorflow's average pool does not use the padded zero's in
-        # its average calculation
         branch_pool = F.avg_pool2d(x, kernel_size=3, stride=1, padding=1,
                                    count_include_pad=False)
         branch_pool = self.branch_pool(branch_pool)
@@ -302,11 +299,6 @@ class FIDInceptionE_2(models.inception.InceptionE):
             self.branch3x3dbl_3b(branch3x3dbl),
         ]
         branch3x3dbl = torch.cat(branch3x3dbl, 1)
-
-        # Patch: The FID Inception model uses max pooling instead of average
-        # pooling. This is likely an error in this specific Inception
-        # implementation, as other Inception models use average pooling here
-        # (which matches the description in the paper).
         branch_pool = F.max_pool2d(x, kernel_size=3, stride=1, padding=1)
         branch_pool = self.branch_pool(branch_pool)
 

@@ -3,7 +3,6 @@ import importlib
 
 def find_distiller_using_name(distiller_name):
     distiller_filename = "distillers." + distiller_name + '_distiller'
-    # print(distiller_filename)
     modellib = importlib.import_module(distiller_filename)
     distiller = None
     target_distiller_name = distiller_name.replace('_', '') + 'distiller'

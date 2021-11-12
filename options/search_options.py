@@ -19,8 +19,6 @@ class SearchOptions(BaseOptions):
         parser.add_argument('--model', type=str, default='test', help='which model do you want test')
         parser.add_argument('--no_fid', action='store_true',
                             help='whether you want to compute FID.')
-        parser.add_argument('--no_mIoU', action='store_true',
-                            help='whether you want to compute mIoU.')
 
         parser.add_argument('--netG', type=str, default='super_mobile_resnet_9blocks',
                             choices=['super_mobile_resnet_9blocks', 'super_mobile_resnet_6blocks'],

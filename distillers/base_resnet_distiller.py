@@ -24,7 +24,7 @@ class BaseResnetDistiller(BaseModel):
         parser = super(BaseResnetDistiller, BaseResnetDistiller).modify_commandline_options(parser, is_train)
         assert isinstance(parser, ArgumentParser)
         parser.add_argument('--recon_loss_type', type=str, default='l1',
-                            choices=['l1', 'l2', 'smooth_l1', 'vgg', 'lpips],
+                            choices=['l1', 'l2', 'smooth_l1', 'vgg', 'lpips'],
                             help='the type of the reconstruction loss')
         parser.add_argument('--lambda_distill', type=float, default=1,
                             help='weights for the intermediate activation distillation loss')

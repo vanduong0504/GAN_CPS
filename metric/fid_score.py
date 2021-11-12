@@ -45,13 +45,6 @@ from torch.nn.functional import adaptive_avg_pool2d
 
 from .inception import InceptionV3
 
-# try:
-#     from tqdm import tqdm
-# except ImportError:
-#     # If not tqdm is not available, provide a mock version of it
-#     def tqdm(x):
-#         return x
-
 parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
 parser.add_argument('path', type=str, nargs=2,
                     help=('Path to the generated images or '
@@ -96,7 +89,6 @@ def get_activations(files, model, batch_size=50, dims=2048,
         print(('Warning: batch size is bigger than the datasets size. '
                'Setting batch size to datasets size'))
         batch_size = len(files)
-    # print(len(files), batch_size)
 
     n_batches = len(files) // batch_size
     n_used_imgs = n_batches * batch_size
@@ -167,15 +159,6 @@ def get_activations_from_ims(ims, model, batch_size=50, dims=2048,
     """
     model.eval()
 
-    # if len(ims) % batch_size != 0:
-    #     print(('Warning: number of images is not a multiple of the '
-    #            'batch size. Some samples are going to be ignored.'))
-    # if batch_size > len(ims):
-    #     print(('Warning: batch size is bigger than the datasets size. '
-    #            'Setting batch size to datasets size'))
-    #     batch_size = len(ims)
-    # print(len(files), batch_size)
-
     n_batches = (len(ims) + batch_size - 1) // batch_size
     n_used_imgs = len(ims)
 
@@ -197,14 +180,10 @@ def get_activations_from_ims(ims, model, batch_size=50, dims=2048,
         images /= 255
 
         batch = torch.from_numpy(images).type(torch.FloatTensor).to(device)
-        # if cuda:
-        #     batch = batch.cuda()
+
         with torch.no_grad():
             pred = model(batch)[0]
 
-        # If model output is not scalar, apply global spatial average pooling.
-        # This happens if you choose a dimensionality not equal 2048.
-        # print(pred.shape)
         if pred.shape[2] != 1 or pred.shape[3] != 1:
             pred = adaptive_avg_pool2d(pred, output_size=(1, 1))
 
@@ -251,15 +230,9 @@ def calculate_frechet_distance(mu1, sigma1, mu2, sigma2, eps=1e-6):
 
     diff = mu1 - mu2
 
-    # print(t.max())
-    # print(t.min())
-    # print(abs(t).mean())
-    # print(t.mean())
-
     # Product might be almost singular
     t = sigma1.dot(sigma2)
     for i in range(30):
-        # print(i)
         flag = True
         covmean, _ = linalg.sqrtm(t, disp=False)
         if not np.isfinite(covmean).all():
@@ -272,7 +245,6 @@ def calculate_frechet_distance(mu1, sigma1, mu2, sigma2, eps=1e-6):
         # Numerical error might give slight imaginary component
         if np.iscomplexobj(covmean):
             if not np.allclose(np.diagonal(covmean).imag, 0, atol=1e-3):
-                # raise ValueError('Imaginary component {}'.format(m))
                 flag = False
             covmean = covmean.real
         if flag:
@@ -368,8 +340,3 @@ def calculate_fid_given_paths(paths, batch_size, cuda, dims, model=None, use_tqd
     fid_value = calculate_frechet_distance(m1, s1, m2, s2)
 
     return fid_value
-
-# def main():
-#     fid_value = calculate_fid_given_paths(('datasets/coco_stuff/val_img', 'datasets/coco_stuff/val_img'),
-#                                           1, True, 2048)
-#     print('FID: ', fid_value)
