@@ -132,17 +132,16 @@ class CycleGANModel(BaseModel):
         self.eval_dataloader_AtoB = create_eval_dataloader(self.opt, direction='AtoB')
         self.eval_dataloader_BtoA = create_eval_dataloader(self.opt, direction='BtoA')
 
-        if not opt.is_train:
-            block_idx = InceptionV3.BLOCK_INDEX_BY_DIM[2048]
-            self.inception_model = InceptionV3([block_idx])
-            self.inception_model.to(self.device)
-            self.inception_model.eval()
-        
-            self.best_fid_A, self.best_fid_B = 1e9, 1e9
-            self.fids_A, self.fids_B = [], []
-            self.is_best = False
-            self.npz_A = np.load(opt.real_stat_A_path)
-            self.npz_B = np.load(opt.real_stat_B_path)
+        block_idx = InceptionV3.BLOCK_INDEX_BY_DIM[2048]
+        self.inception_model = InceptionV3([block_idx])
+        self.inception_model.to(self.device)
+        self.inception_model.eval()
+    
+        self.best_fid_A, self.best_fid_B = 1e9, 1e9
+        self.fids_A, self.fids_B = [], []
+        self.is_best = False
+        self.npz_A = np.load(opt.real_stat_A_path)
+        self.npz_B = np.load(opt.real_stat_B_path)
 
     def set_input(self, input):
         """Unpack input data from the dataloader and perform necessary pre-processing steps.
