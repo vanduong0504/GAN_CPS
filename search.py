@@ -116,8 +116,8 @@ if __name__ == '__main__':
 
         fakes, names = [], []
         if qualified:
-            if isinstance(model, SPADEModel):
-                model.calibrate(config)
+#             if isinstance(model, SPADEModel):
+#                 model.calibrate(config)
             for i, data_i in enumerate(dataloader):
                 model.set_input(data_i)
                 model.test(config)
