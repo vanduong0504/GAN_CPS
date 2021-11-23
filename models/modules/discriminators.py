@@ -17,6 +17,13 @@ import numpy as np
 from torch import nn
 from torch.nn import functional as F
 
+import argparse
+import functools
+
+import numpy as np
+from torch import nn
+from torch.nn import functional as F
+
 class NLayerDiscriminator(nn.Module):
     """Defines a PatchGAN discriminator"""
 
@@ -35,8 +42,8 @@ class NLayerDiscriminator(nn.Module):
             use_bias = norm_layer == nn.InstanceNorm2d
 
         ker = 4
-		padw = 1
-		s = 2 
+        padw = 1
+        s = 2 
 
         sequence = [nn.Conv2d(input_nc, ndf, kernel_size=ker, stride=s, padding=padw), nn.LeakyReLU(0.2, True)] #1
         nf_mult = 1
@@ -50,8 +57,8 @@ class NLayerDiscriminator(nn.Module):
                 norm_layer(ndf * nf_mult),
                 nn.LeakyReLU(0.2, True)
             ]
-			ker = 3
-			s = 1
+            ker = 3
+            s = 1
 
         nf_mult_prev = nf_mult
         nf_mult = min(2 ** n_layers, 8)
@@ -67,6 +74,7 @@ class NLayerDiscriminator(nn.Module):
     def forward(self, input):
         """Standard forward."""
         return self.model(input)
+
 
 
 
