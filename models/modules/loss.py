@@ -145,11 +145,11 @@ class VGG19(torch.nn.Module):
     def __init__(self, requires_grad=False):
         super().__init__()
         vgg_pretrained_features = torchvision.models.vgg19(pretrained=True).features
-        self.slice1 = torch.nn.Sequential(vgg_pretrained_features[0:2])
-        self.slice2 = torch.nn.Sequential(vgg_pretrained_features[2:7])
-        self.slice3 = torch.nn.Sequential(vgg_pretrained_features[7:12])
-        self.slice4 = torch.nn.Sequential(vgg_pretrained_features[12:21])
-        self.slice5 = torch.nn.Sequential(vgg_pretrained_features[21:30])
+        self.slice1 = torch.nn.Sequential(vgg_pretrained_features[0:5])
+        self.slice2 = torch.nn.Sequential(vgg_pretrained_features[5:10])
+        self.slice3 = torch.nn.Sequential(vgg_pretrained_features[10:19])
+        self.slice4 = torch.nn.Sequential(vgg_pretrained_features[19:28])
+        self.slice5 = torch.nn.Sequential(vgg_pretrained_features[28:37])
       
         if not requires_grad:
             for param in self.parameters():
